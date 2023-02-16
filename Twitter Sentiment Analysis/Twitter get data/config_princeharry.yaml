@@ -1,0 +1,23 @@
+twitter:
+  api_key: "IaIzvCfW0omfhhFjwbowz4gWG"
+  api_key_secret: "8wurglN4tuIlZDE4oDsFUYZFB6EM1MM6yzHeXli8ulKFDk33Zn"
+
+  access_token: "1581908690294013953-ttB34kX0oY0I3vTcJokxY6WSxIuD3v"
+  access_token_secret: "mU83kJFmCZoLRf4CeV51OngNqD4JOxq6limbFjFsY62Cs"
+
+  bearer_token: "1581908690294013953-ttB34kX0oY0I3vTcJokxY6WSxIuD3v"
+
+  client_id: "dldxa1VDU3JNaS1vdFU4dW1NcFA6MTpjaQ"
+  client_secret: "EG99puYlE11HpN2ByGlbsIvlQZXvRzrSyQ7rlZ1biobAAMQkI"
+  
+azure:
+  server: 'twittertestdb.database.windows.net' 
+  database: 'TwitterTestDB' 
+details:
+  username: 'db_owner_peter'
+  password: 'Testpassword123!'
+  driver: '{ODBC Driver 18 for SQL Server}'
+  driver2: 'TwitterTestDB123'
+table_details:
+  target_table: '[dbo].[PRINCEHARRY]'
+  target_column: 'JSON_PAYLOAD'

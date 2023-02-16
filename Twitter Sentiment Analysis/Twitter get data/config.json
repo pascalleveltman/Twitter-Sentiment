@@ -1,0 +1,17 @@
+{
+    "subscription_id": "a768c5a9-ae87-4d38-8f6a-f3d35b3b7994",
+    "resource_group": "AzureMLDoc-SDK-RG01",
+    "workspace_name": "AzureMLDoc-SDK-WS01",
+    "tenant_id": "d9854e81-0a71-43d4-9753-46cc066c1841",
+
+    "api_key": "IaIzvCfW0omfhhFjwbowz4gWG",
+    "api_key_secret": "8wurglN4tuIlZDE4oDsFUYZFB6EM1MM6yzHeXli8ulKFDk33Zn",
+
+    "access_token": "1581908690294013953-ttB34kX0oY0I3vTcJokxY6WSxIuD3v",
+    "access_token_secret": "mU83kJFmCZoLRf4CeV51OngNqD4JOxq6limbFjFsY62Cs",
+
+    "bearer_token": "1581908690294013953-ttB34kX0oY0I3vTcJokxY6WSxIuD3v",
+
+    "client_id": "dldxa1VDU3JNaS1vdFU4dW1NcFA6MTpjaQ",
+    "client_secret": "EG99puYlE11HpN2ByGlbsIvlQZXvRzrSyQ7rlZ1biobAAMQkI"
+}

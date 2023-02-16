@@ -1,0 +1,46 @@
+twitter:
+  api_key: "IaIzvCfW0omfhhFjwbowz4gWG"
+  api_key_secret: "8wurglN4tuIlZDE4oDsFUYZFB6EM1MM6yzHeXli8ulKFDk33Zn"
+
+  access_token: "1581908690294013953-ttB34kX0oY0I3vTcJokxY6WSxIuD3v"
+  access_token_secret: "mU83kJFmCZoLRf4CeV51OngNqD4JOxq6limbFjFsY62Cs"
+
+  bearer_token: "1581908690294013953-ttB34kX0oY0I3vTcJokxY6WSxIuD3v"
+
+  client_id: "dldxa1VDU3JNaS1vdFU4dW1NcFA6MTpjaQ"
+  client_secret: "EG99puYlE11HpN2ByGlbsIvlQZXvRzrSyQ7rlZ1biobAAMQkI"
+  
+azure:
+  server: 'twittertestdb.database.windows.net' 
+  database: 'TwitterTestDB' 
+  
+details:
+  username: 'db_owner_peter'
+  password: 'Testpassword123!'
+  driver: '{ODBC Driver 17 for SQL Server}'
+  driver2: 'TwitterTestDB123'
+  
+table_details_1:
+  lnd_raw_target_table: '[dbo].[LND_TWITTER_DATA]'
+  target_column: 'JSON_DATA'
+  
+table_details_harry:
+  target_table_new_harry: '[dbo].[HarryTwitter]'
+  target_table_harry: '[dbo].[New_HarryTwitter]'
+  target_column_harry: 'tweetjson'
+
+table_details_trump:
+  target_table_trump: '[dbo].[TrumpTwitter]'
+  target_column_trump: 'tweetjson'
+
+table_details_bitcoin:
+  target_table_bitcoin: '[dbo].[BitcoinTwitter]'
+  target_column_bitcoin: 'tweetjson'
+  
+sql_login:
+   name: 'PeterTwitter'
+   password: 'TwitterMock2023!'
+   
+sql_login2:
+   name: 'PascalleTwitter'
+   password: 'TwitterMock2023!'
