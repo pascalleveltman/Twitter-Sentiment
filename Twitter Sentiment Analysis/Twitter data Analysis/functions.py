@@ -192,14 +192,10 @@ def sentiment_vader(df_input):
         df.loc[(df.id == tweet.id), 'Final_Text'] = final_text
         df.loc[(df.id == tweet.id), 'Final_Text_Without_Icons'] = final_text_without_icons
         
-        # Detect location of user
-        # loca = str(get_location(tweet['user.location']))
-        loca = '.'
-        if loca is not np.nan:
-            df.loc[(df.id == tweet.id), 'Tracked_Location'] = str(loca)
-        else:
-            df.loc[(df.id == tweet.id), 'Tracked_Location'] = str('')
-        
+        # Detect country of user
+        loca = str(get_country2(tweet['user.location']))
+        df.loc[(df.id == tweet.id), 'Tracked_Location'] = str(loca)
+
         if isinstance(tweet['entities.hashtags'], list):
             if len(tweet['entities.hashtags']) > 0:
                 hashtags = []
