@@ -42,10 +42,99 @@ import spacy
 from geopy.geocoders import Nominatim
 import folium
 from tqdm import tqdm
-
+from textblob import TextBlob
+from pattern.en import sentiment
+from pattern.en import parse
+from pattern.en import pprint
+import spacy
+from flair.models import TextClassifier
+from flair.data import Sentence
 # =============================================================================
 # MAIN FUNCTIONS
 # =============================================================================
+
+def sentiment_all(df_input):
+    
+    # nlp = spacy.load("en_core_web_sm")
+    
+    
+    df = df_input.copy()
+    
+    df['created_at']= pd.to_datetime(df['created_at'])
+    df['Textblob_polarity'] = ''
+    df['VADER_polarity'] = ''
+    df['Flair_polarity'] = ''
+    df['Pattern_polarity'] = ''
+    df['VADER_score'] = ''
+    df['Pattern_subjectivity'] = ''
+    df['Final_Text'] = ''
+    df['Final_Text_Without_Icons'] = ''
+    # classifier = TextClassifier.load('en-sentiment')
+
+    
+    # for row in range(len(df)):
+    for row in tqdm(range(len(df))):
+        
+        # print('new tweet')
+        tweet = df.iloc[row,:]
+        
+        final_text = tweet.text.replace('RT', '')
+    
+        if final_text.startswith(' @'):
+            position = final_text.index(':')
+            final_text = final_text[position+2:]
+        if final_text.startswith('@'):
+            if ' ' in final_text:
+                position = final_text.index(' ')
+                final_text = final_text[position+2:]
+            else: final_text = final_text
+        
+        final_text = final_text
+        final_text_without_icons = process_tweet(final_text)
+        
+        # Get vader sentiment
+        analysis = sid.polarity_scores(final_text)
+        tweet_compound = analysis['compound']
+        
+        # Get TextBob Sentiment
+        textblob_polarity = TextBlob(final_text).sentiment.polarity
+        
+        pattern_sent = sentiment(final_text)
+        pattern_polarity = pattern_sent[0]
+        
+        # sentence = Sentence(final_text)
+        # classifier.predict(sentence)
+        # flair_polarity = str(sentence.labels)
+        
+        # if tweet_compound > 0:
+        #     positive += 1
+        # elif tweet_compound < 0:
+        #     negative += 1
+        # else:
+        #     neutral += 1
+        # compound += tweet_compound
+        
+        df.loc[(df.id == tweet.id), 'VADER_polarity'] = tweet_compound
+        df.loc[(df.id == tweet.id), 'VADER_score'] = str(analysis)
+        df.loc[(df.id == tweet.id), 'Textblob_polarity'] = textblob_polarity
+        # df.loc[(df.id == tweet.id), 'Flair_polarity'] = flair_polarity
+        df.loc[(df.id == tweet.id), 'Pattern_subjectivity'] = pattern_sent[1]
+        df.loc[(df.id == tweet.id), 'Pattern_polarity'] = pattern_sent[0]
+        df.loc[(df.id == tweet.id), 'Final_Text'] = final_text
+        df.loc[(df.id == tweet.id), 'Final_Text_Without_Icons'] = final_text_without_icons
+    
+    # Assign sentiment to df
+    df.loc[df.Textblob_polarity < 0, 'Sentiment_textblob'] = 'negative'
+    df.loc[(df.Textblob_polarity > 0), 'Sentiment_textblob'] = 'positive'
+    df.loc[(df.Textblob_polarity == 0), 'Sentiment_textblob'] = 'neutral'
+    
+    # Assign sentiment to df
+    df.loc[df.VADER_polarity < 0, 'Sentiment_VADER'] = 'negative'
+    df.loc[(df.VADER_polarity > 0), 'Sentiment_VADER'] = 'positive'
+    df.loc[(df.VADER_polarity == 0), 'Sentiment_VADER'] = 'neutral'
+        
+    return df
+    
 
 def sentiment_vader(df_input):
 
@@ -264,6 +353,67 @@ def get_location(text1):
         # print('not found')
         return np.nan
 
+def get_country(text1):
+
+    if (text1 is not np.nan) & (text1 != 'nan') & (text1 != 'NaN') & (not text1.isspace()) & (text1 != ''):
+        # extracting entities.
+        # print('found:', text1)
+        geolocator = Nominatim(user_agent="geoapiExercises")
+        place_entity = locationtagger.find_locations(text = text1)
+        geopy.geocoders.options.default_timeout = 10
+        geopy.geocoders.options.default_retries = 10
+        found = 0
+        if (len(place_entity.countries) == 0) & (len(place_entity.regions) == 0) & (len(place_entity.cities) == 0) & (not place_entity.country_regions) & (not place_entity.country_cities) & (len(place_entity.other_countries) == 0) & (not place_entity.region_cities) & (len(place_entity.other_regions) == 0):
+            found = 0
+            # print('hi1')
+        else:
+            try:
+                location = geolocator.geocode(text1)
+                found = 1
+                # print('hi2')
+            except GeocoderServiceError as e:
+                found = 0
+                # print('hi3')
+        if found == 1:
+            # print('hi4')
+            try: 
+                country = location.address.split(",")[-1].strip()
+                return country
+            except:
+                return np.nan
+        else:
+            # print('hi5')
+            return np.nan
+    else: 
+        # print('not found')
+        return np.nan
+    
+def get_country2(text1):
+
+    if (text1 is not np.nan) & (text1 != 'nan') & (text1 != 'NaN') & (not text1.isspace()) & (text1 != ''):
+        geolocator = Nominatim(user_agent="geoapiExercises")
+        try:
+            location = geolocator.geocode(text1)
+            found = 1
+            # print('hi2')
+        except GeocoderServiceError as e:
+            found = 0
+            # print('hi3')
+        if found == 1:
+            # print('hi4')
+            try: 
+                country = location.address.split(",")[-1].strip()
+                return country
+            except:
+                return np.nan
+        else:
+            # print('hi5')
+            return np.nan
+    else: 
+        # print('not found')
+        return np.nan
+    
+    
 # def get_location2(text1):
     
 #     geolocator = Nominatim(user_agent="geoapiExercises")
